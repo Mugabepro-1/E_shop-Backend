@@ -13,13 +13,16 @@ const categoriesRouter = require('./routers/categories')
 const ordersRouter = require('./routers/orders')
 const productsRouter = require('./routers/products')
 const usersRouter = require('./routers/users')
+const auth = require('./helpers/jwt')
 
 
 require('dotenv/config')
 const api = process.env.API_URL
 
+//middlewares
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
+app.use(auth)
 
 app.use(`${api}/categories`, categoriesRouter)
 app.use(`${api}/orders`, usersRouter)
