@@ -14,6 +14,7 @@ const ordersRouter = require('./routers/orders')
 const productsRouter = require('./routers/products')
 const usersRouter = require('./routers/users')
 const auth = require('./helpers/jwt')
+const errorHandler = require('./helpers/error-handler')
 
 
 require('dotenv/config')
@@ -22,12 +23,15 @@ const api = process.env.API_URL
 //middlewares
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
-app.use(auth)
+app.use(auth())
 
 app.use(`${api}/categories`, categoriesRouter)
-app.use(`${api}/orders`, usersRouter)
+app.use(`${api}/orders`, ordersRouter
+    
+)
 app.use(`${api}/products`,productsRouter )
 app.use(`${api}/users`, usersRouter)
+app.use(errorHandler)
 
 mongoose.connect('mongodb://127.0.0.1:27017/eshop_database')
 .then(() => {
@@ -36,8 +40,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/eshop_database')
 .catch((error) => {
     console.error('MongoDB connection error:', error);
 });
-
-
 const port = process.env.port || 3000;
 app.listen(port, ()=>{
     console.log(`App is running on port ${port}`)

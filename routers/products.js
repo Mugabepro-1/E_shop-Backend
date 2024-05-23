@@ -1,21 +1,31 @@
 const {Product} = require('../models/product')
 const {Category}  =require('../models/category')
+const checkAdmin = require('../helpers/checkAdmin')
+
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const { Order } = require('../models/order')
 
-router.get(`/`,async (req, res)=>{
+router.get(`/`, async (req, res) => {
+    try {
+        let filter = {}; 
+        if (req.query.categories) {
+            const categories = req.query.categories.split(',');
+            filter = { category: { $in: categories } };
+        }
 
-    const categories = req.query.categories.split(',')
-    let filter = {}
-    if(req.query.categories.length > 0){
-        filter = {category: { $in: categories } }
+        const productList = await Product.find(filter).select('name image -_id').populate('category');
+
+        if (productList.length === 0) {
+            return res.status(404).json({ success: false, message: 'No products found for the specified categories.' });
+        }
+
+        return res.status(200).json({ success: true, data: productList });
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
-    const productList = await Product.find(filter).select('name image -_id').populate('category')
-
-    if(!productList) return res.status(500) .json({success:false})
-    
-    res.send(productList)
 });
 
 router.get('/:id', async(req,res)=>{
@@ -28,7 +38,7 @@ router.get('/:id', async(req,res)=>{
     res.send(product)
 })
 
-router.post('/', async(req,res)=>{
+router.post('/',checkAdmin, async(req,res)=>{
   
 
     const category = await Category.findById(req.body.category)
@@ -53,7 +63,7 @@ router.post('/', async(req,res)=>{
     res.send(product)
 })
 
-router.put('/:id', async(req,res)=>{
+router.put('/:id',checkAdmin, async(req,res)=>{
 
     if(!mongoose.isValidObjectId(req.params.id)){
         res.status(400).send('Invalid Product id')
@@ -85,7 +95,7 @@ router.put('/:id', async(req,res)=>{
     res.send(product)
 });
 
-router.delete('/:id', (req,res)=>{
+router.delete('/:id',checkAdmin, (req,res)=>{
     const product = Product.findByIdAndDelete(req.params.id)
     .then(product=>{
         if(product) return res.status(200).json({success:false, message:'Product deleted successfully'})
@@ -115,5 +125,12 @@ router.get('/get/featured/:count', async(req,res)=>{
     if(!productCount) return res.status(500).json({success:false})
     
     res.send(productCount)
+});
+
+
+router.get('/get/totalsales', async(req,res)=>{
+    const totalSales = await Order.aggregate([
+        {$group :{ _id:null, totalSales: {$sum:'$totalPrice'}}}
+    ])
 })
 module.exports = router;

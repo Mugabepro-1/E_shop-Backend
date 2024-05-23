@@ -1,4 +1,5 @@
 const {Category} = require('../models/category')
+const checkAdmin = require('../helpers/checkAdmin')
 const express = require('express')
 const router = express()
 
@@ -19,7 +20,7 @@ router.get('/:id', async(req,res)=>{
     res.status(200).send(category)
 });
 
-router.post('/',async(req,res)=>{
+router.post('/', checkAdmin, async(req,res)=>{
     let category = new Category({
         name:req.body.name,
         icon:req.body.icon,
@@ -32,7 +33,7 @@ router.post('/',async(req,res)=>{
     res.send(category)
 });
 
-router.put('/:id', async(req,res)=>{
+router.put('/:id',checkAdmin, async(req,res)=>{
     const category = await Category.findByIdAndUpdate(
         req.params.id,
         {
@@ -48,7 +49,7 @@ router.put('/:id', async(req,res)=>{
     res.send(category)
 })
 
-router.delete('/:id', (req,res)=>{
+router.delete('/:id',checkAdmin, (req,res)=>{
     Category.findByIdAndDelete(req.params.id).then(category => {
         if(category){
             res.status(200).json({suceess:true, message:'This category was deleted'})
