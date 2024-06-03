@@ -1,9 +1,10 @@
-// start from 41:32 in the video
 const mongoose = require("mongoose");
+const{User} = require('../models/user')
 const { Order } = require("../models/order");
 const { OrderItem } = require("../models/order-item");
 const express = require("express");
 const { populate } = require("dotenv");
+const multer = require("multer");
 const router = express();
 
 router.get("/", async (req, res) => {
@@ -106,6 +107,36 @@ router.delete("/:id", (req, res) => {
     .catch((err) => {
       return res.status(500).json({ success: false, error: err });
     });
+});
+
+router.get('/get/totalsales', async(req,res)=>{
+  const totalSales = await Order.aggregate([
+      {$group :{ _id:null, totalSales: {$sum :'$totalPrice'}}}
+  ])
+  if(!totalSales){
+    return res.status(400).send('Could not get the totalsales')
+  }
+  res.send({totalSales:totalSales.pop().totalSales})
+});
+
+router.get('/get/count', async(req,res)=>{
+  const orderCount = await Order.countDocuments()
+  if(!orderCount){
+    return res.status(400).send('Could not get the ordercount')
+  }
+  res.send({orderCount:orderCount})
+
+});
+
+router.get('/get/userorders/:userid', async(req,res)=>{
+  const userOrderList = await Order.find({user:req.params.userid}).populate({
+    path:'orderItems', populate:{path:'product', populate:{path:'category'}}
+  }).sort({'dateOrdered':-1})
+
+  if(!userOrderList){
+    res.status(500).json({success:false})
+  }
+  res.send(userOrderList)
 });
 
 module.exports = router;

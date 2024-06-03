@@ -6,6 +6,32 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const { Order } = require('../models/order')
+const multer = require('multer')
+const { update, isMatch } = require('lodash')
+
+const FILE_TYPE_MAP = {
+    'image/png':'png',
+    'image/jpeg':'jpeg',
+    'image/jpg':'jpg'
+}
+
+const storage = multer.diskStorage({
+    destination: function(req,file, cb){
+        const isValid = FILE_TYPE_MAP[file.mimetype]
+        let uploadError = new Error('Unsupported file type')
+        if(isValid){
+            uploadError = null
+        }
+        cb(uploadError, 'public/uploads')
+
+    },
+    filename: function(req, file, cb){
+        const fileName = file.originalname.replace(' ','-')
+        const extension = FILE_TYPE_MAP[file.mimetype]
+        cb(null,`${fileName}-${Date.now()}.${extension}`)
+    }
+})
+const uploadOptions = multer({storage:storage})
 
 router.get(`/`, async (req, res) => {
     try {
@@ -38,17 +64,18 @@ router.get('/:id', async(req,res)=>{
     res.send(product)
 })
 
-router.post('/',checkAdmin, async(req,res)=>{
+router.post('/',checkAdmin,uploadOptions.single('image'), async(req,res)=>{
   
 
     const category = await Category.findById(req.body.category)
     if(!category) return res.status(400).send('Invalid category')
-
+    const fileName = req.file.filename
+    const basePath  =`${req.protocol}://${req.get('host')}/public/uploads/`
     let product = new Product({
         name:req.body.name,
         description:req.body.description,
         richDescription:req.body.richDescription,
-        image:req.body.image,
+        image:`${basePath}${fileName}`,
         brand:req.body.brand,
         price:req.body.price,
         category:req.body.category,
@@ -126,11 +153,4 @@ router.get('/get/featured/:count', async(req,res)=>{
     
     res.send(productCount)
 });
-
-
-router.get('/get/totalsales', async(req,res)=>{
-    const totalSales = await Order.aggregate([
-        {$group :{ _id:null, totalSales: {$sum:'$totalPrice'}}}
-    ])
-})
 module.exports = router;
