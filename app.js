@@ -1,10 +1,7 @@
-//This backend apis is done og bro
-//left to add the sending the token to the email of the user and the google authentication and then hosting the app
 const express = require('express')
 const bodyParser= require('body-parser')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-const passport = require('passport')
 const cors = require('cors')
 const app = express()
 
@@ -18,14 +15,12 @@ const usersRouter = require('./routers/users')
 const auth = require('./helpers/jwt')
 const errorHandler = require('./helpers/error-handler')
 
-require('./helpers/auth')
 require('dotenv/config')
 const api = process.env.API_URL
 
 //middlewares
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
-app.use(auth())
 
 app.use(`${api}/categories`, categoriesRouter)
 app.use(`${api}/orders`, ordersRouter)
