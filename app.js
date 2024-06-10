@@ -4,7 +4,7 @@ const express = require('express')
 const bodyParser= require('body-parser')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-const passport = require('passport-google-oauth2')
+const passport = require('passport')
 const cors = require('cors')
 const app = express()
 
@@ -34,32 +34,6 @@ app.use(`${api}/products`,productsRouter )
 app.use(`${api}/users`, usersRouter)
 app.use('/public/uploads',express.static(__dirname + '/public/uploads'))
 app.use(errorHandler)
-
-
-
-
-
-
-app.get('/auth/google',
-    passport.authenticate('google',{scope:
-        ['email','profile']
-    }
-));
-
-app.get('auth/google/callback',
-    passport.authenticate('google',{
-        successRedirect:'/auth/google/success',
-        successFailure:'/auth/google/failure'
-}));
-
-
-
-
-
-
-
-
-
 
 mongoose.connect('mongodb://127.0.0.1:27017/eshop_database')
 .then(() => {
