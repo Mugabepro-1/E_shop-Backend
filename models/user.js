@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 
 const userSchema =  mongoose.Schema({
   name:{
@@ -7,7 +9,13 @@ const userSchema =  mongoose.Schema({
   },
   email:{
     type:String,
-    requried:true
+    requried:true,
+    validate:{
+      validator:function(v){
+        return emailRegex.test(v)
+      },
+      message: props=>'This is not a valid email'
+    }
   },
   passwordHash:{
     type:String,
