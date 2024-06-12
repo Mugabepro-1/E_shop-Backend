@@ -1,3 +1,67 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *         - passwordHash
+ *         - phone
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: Name of the user
+ *         email:
+ *           type: string
+ *           description: Email of the user
+ *         passwordHash:
+ *           type: string
+ *           description: The encrypted password of the user
+ *         phone:
+ *           type: string
+ *           description: The phone number of the user
+ *         isAdmin:
+ *           type: boolean
+ *           description: Indicates if the user is an admin
+ *         street:
+ *           type: string
+ *           description: The street location of the user
+ *         apartment:
+ *           type: string
+ *           description: The apartment or house name of the user
+ *         zip:
+ *           type: string
+ *           description: The postal zip code of the user
+ *         city:
+ *           type: string
+ *           description: The city in which the user lives
+ *         country:
+ *           type: string
+ *           description: The country location of the user
+ */
+ 
+/**
+ * @swagger
+ * tags:
+ *   name:User
+ *   description:The users management apis
+ * /users
+ *   get:
+ *     summany:The list of all users
+ *     tags:[Users]
+ *     responses:
+ *       200:
+ *         description:The list of all books
+ *         content:application/json
+ *           schema:
+ *             type:array
+ *             items:
+ *               $ref:'#/models/users'
+ */
+
+
 const { User } = require("../models/user");
 const checkAdmin = require("../helpers/checkAdmin");
 const express = require("express");
