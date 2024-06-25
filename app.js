@@ -1,5 +1,3 @@
-//This backend apis is done og bro
-//left to add the sending the token to the email of the user and the google authentication and then hosting the app
 const express = require('express')
 const bodyParser= require('body-parser')
 const morgan = require('morgan')
