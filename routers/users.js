@@ -41,24 +41,44 @@
  *           type: string
  *           description: The country location of the user
  */
- 
+
 /**
  * @swagger
  * tags:
- *   name:User
- *   description:The users management apis
- * /users
- *   get:
- *     summany:The list of all users
- *     tags:[Users]
- *     responses:
- *       200:
- *         description:The list of all books
- *         content:application/json
- *           schema:
- *             type:array
- *             items:
- *               $ref:'#/models/users'
+ *   - name: User
+ *     description: The users management APIs
+ * paths:
+ *   /users:
+ *     get:
+ *       summary: The list of all users
+ *       tags: [User]
+ *       responses:
+ *         200:
+ *           description: The list of all users
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/User'
+ *     post:
+ *       summary: Create a new user
+ *       tags: [User]
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       responses:
+ *         200:
+ *           description: The created user
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ *         500:
+ *           description: Server error
  */
 
 
