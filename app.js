@@ -30,7 +30,7 @@ app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 app.use(errorHandler);
 
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/eshop_database")
+  .connect("mongodb://127.0.0.1:27017/eshop_database")
   .then(() => {
     console.log("Connected to MongoDB...");
   })
