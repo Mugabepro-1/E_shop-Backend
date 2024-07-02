@@ -1,7 +1,6 @@
 require("dotenv/config");
 const api = process.env.API_URL;
 const expressJwt = require("express-jwt");
-const { response } = require("../routers/users");
 const {User} = require('../routers/users')
 const secret = process.env.sec;
 
@@ -10,7 +9,6 @@ function auth() {
     .expressjwt({
       secret,
       algorithms: ["HS256"],
-      //isRevoked:isRevoked
     })
     .unless({
       path: [

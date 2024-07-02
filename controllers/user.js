@@ -4,12 +4,19 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
 const getAllUsers = async (req, res) => {
-  const userList = await User.find();
-  if (!userList) {
-    return res.status(500).json({ success: false });
+  try {
+    const userList = await User.find();
+    if (!userList) {
+      console.error('Error: No users found');
+      return res.status(404).json({ success: false, message: 'No users found' });
+    }
+    res.send(userList);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
-  res.send(userList);
 };
+
 
 const getUserById = async (req, res) => {
   const user = await User.findById(req.params.id).select("-passwordHash");
