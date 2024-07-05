@@ -1,0 +1,663 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "My API",
+      "version": "1.0.0",
+      "description": "API documentation for my application"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Local server"
+      }
+    ],
+    "paths": {
+      "/users": {
+        "get": {
+          "summary": "Get all users",
+          "tags": ["Users"],
+          "responses": {
+            "200": {
+              "description": "List of users",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new user",
+          "tags": ["Users"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User created"
+            }
+          }
+        }
+      },
+      "/users/{id}": {
+        "get": {
+          "summary": "Get user by ID",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update user by ID",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User updated"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete user by ID",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted"
+            }
+          }
+        }
+      },
+      "/products": {
+        "get": {
+          "summary": "Get all products",
+          "tags": ["Products"],
+          "responses": {
+            "200": {
+              "description": "List of products",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Product"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new product",
+          "tags": ["Products"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Product created"
+            }
+          }
+        }
+      },
+      "/products/{id}": {
+        "get": {
+          "summary": "Get product by ID",
+          "tags": ["Products"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Product details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update product by ID",
+          "tags": ["Products"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Product updated"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete product by ID",
+          "tags": ["Products"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Product deleted"
+            }
+          }
+        }
+      },
+      "/orders": {
+        "get": {
+          "summary": "Get all orders",
+          "tags": ["Orders"],
+          "responses": {
+            "200": {
+              "description": "List of orders",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Order"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new order",
+          "tags": ["Orders"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Order created"
+            }
+          }
+        }
+      },
+      "/orders/{id}": {
+        "get": {
+          "summary": "Get order by ID",
+          "tags": ["Orders"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Order details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update order by ID",
+          "tags": ["Orders"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Order updated"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete order by ID",
+          "tags": ["Orders"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Order deleted"
+            }
+          }
+        }
+      },
+      "/categories": {
+        "get": {
+          "summary": "Get all categories",
+          "tags": ["Categories"],
+          "responses": {
+            "200": {
+              "description": "List of categories",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Category"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new category",
+          "tags": ["Categories"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Category created"
+            }
+          }
+        }
+      },
+      "/categories/{id}": {
+        "get": {
+          "summary": "Get category by ID",
+          "tags": ["Categories"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Category details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update category by ID",
+          "tags": ["Categories"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Category updated"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete category by ID",
+          "tags": ["Categories"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Category deleted"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "60d0fe4f5311236168a109ca"
+            },
+            "name": {
+              "type": "string",
+              "example": "John Doe"
+            },
+            "email": {
+              "type": "string",
+              "example": "john.doe@example.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "hashedpassword"
+            },
+            "phone": {
+              "type": "string",
+              "example": "123456789"
+            },
+            "isAdmin": {
+              "type": "boolean",
+              "example": false
+            }
+          }
+        },
+        "Product": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "60d0fe4f5311236168a109cb"
+            },
+            "name": {
+              "type": "string",
+              "example": "Product Name"
+            },
+            "description": {
+              "type": "string",
+              "example": "Product Description"
+            },
+            "richDescription": {
+              "type": "string",
+              "example": "Rich Product Description"
+            },
+            "image": {
+              "type": "string",
+              "example": "image.jpg"
+            },
+            "brand": {
+              "type": "string",
+              "example": "Brand Name"
+            },
+            "price": {
+              "type": "number",
+              "example": 100.0
+            },
+            "category": {
+              "$ref": "#/components/schemas/Category"
+            },
+            "countInStock": {
+              "type": "number",
+              "example": 10
+            },
+            "rating": {
+              "type": "number",
+              "example": 4.5
+            },
+            "numReviews": {
+              "type": "number",
+              "example": 10
+            },
+            "isFeatured": {
+              "type": "boolean",
+              "example": false
+            },
+            "dateCreated": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            }
+          }
+        },
+        "Order": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "60d0fe4f5311236168a109cc"
+            },
+            "orderItems": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/OrderItem"
+              }
+            },
+            "shippingAddress": {
+              "type": "string",
+              "example": "123 Street, City, Country"
+            },
+            "shippingAddress2": {
+              "type": "string",
+              "example": "Apt 456"
+            },
+            "city": {
+              "type": "string",
+              "example": "City Name"
+            },
+            "zip": {
+              "type": "string",
+              "example": "12345"
+            },
+            "country": {
+              "type": "string",
+              "example": "Country Name"
+            },
+            "phone": {
+              "type": "string",
+              "example": "123456789"
+            },
+            "status": {
+              "type": "string",
+              "example": "Pending"
+            },
+            "totalPrice": {
+              "type": "number",
+              "example": 200.0
+            },
+            "user": {
+              "$ref": "#/components/schemas/User"
+            },
+            "dateOrdered": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            }
+          }
+        },
+        "OrderItem": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "60d0fe4f5311236168a109cd"
+            },
+            "quantity": {
+              "type": "number",
+              "example": 1
+            },
+            "product": {
+              "$ref": "#/components/schemas/Product"
+            }
+          }
+        },
+        "Category": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "60d0fe4f5311236168a109ce"
+            },
+            "name": {
+              "type": "string",
+              "example": "Category Name"
+            },
+            "icon": {
+              "type": "string",
+              "example": "icon.png"
+            },
+            "color": {
+              "type": "string",
+              "example": "#000000"
+            }
+          }
+        }
+      }
+    }
+  }
+  

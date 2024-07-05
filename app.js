@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const swaggerjsdoc = require("swagger-jsdoc");
+const swaggerui = require("swagger-ui-express");
 const app = express();
 
 app.use(cors());
@@ -13,6 +15,27 @@ const ordersRouter = require("./routers/orders");
 const productsRouter = require("./routers/products");
 const usersRouter = require("./routers/users");
 const auth = require("./helpers/jwt");
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "E_shop",
+      version: "1.0.0",
+      description: "Documentation for APIs of the online shop",
+      contact: {
+        name: "MUGABE INEZA Promesse",
+        email: "mugabepromesse@gmail.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:3000/",
+      },
+    ],
+  },
+  apis: ["./routers/*.js"],
+};
+
 const errorHandler = require("./helpers/error-handler");
 
 require("dotenv/config");
@@ -38,6 +61,8 @@ mongoose
     console.error("MongoDB connection error:", error);
   });
 
+const spacs = swaggerjsdoc(options);
+app.use("/api-docs", swaggerui.serve, swaggerui.setup(spacs));
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
